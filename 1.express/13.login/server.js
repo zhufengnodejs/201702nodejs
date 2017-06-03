@@ -25,4 +25,23 @@ app.post('/user/signup',function(req,res){
     //重定向 选择客户端向新的一个路径发请求
     res.redirect('/user/signin');
 });
+app.get('/user/signin',function(req,res){
+  res.render('signup',{title:'登录'});
+});
+//Error: Can't set headers after they are sent.
+//res.end只能执行一次 res.render res.send res.sendFile res.redirect里面都包含了res.end
+app.post('/user/signin',function(req,res){
+  let user = req.body;//[1,2,3]
+  let oldUser = users.find(function(item){
+    return user.username == item.username && user.password == item.password
+  });
+  if(oldUser){
+    res.redirect('/welcome');
+  }else{
+      res.redirect('/user/signin');
+  }
+});
+app.get('/welcome',function(req,res){
+  res.send('welcome');
+})
 app.listen(8080);
