@@ -1,4 +1,5 @@
 let express = require('express');
+let url = require('url');
 let app = express();
 /**
  * 访问 /signin?username=zfpx 的时候把 username的值取出来赋给 username;
@@ -6,14 +7,28 @@ let app = express();
  */
 let username;
 app.use(function(req,res,next){
-
+    let urlObj = url.parse(req.url,true);//
+    let {query,pathname} = urlObj;
+    if(pathname == '/user'){
+        if(username){
+            next();
+        }else{
+            res.end('Not Allowed');
+        }
+    }else{
+        next();
+    }
 });
 //登录
 // /signin?username=zfpx
 app.get('/signin',function(req,res){
-
+    ///signin?username=zfpx  {query:{username:'zfpx'},path:'/signin'}
+    let urlObj = url.parse(req.url,true);//
+    let {query,pathname} = urlObj;
+    username = query.username;
+    res.end('login successfully');
 });
 app.get('/user',function(req,res){
-    res.end('welcome');
+    res.end('welcome '+username);
 });
 app.listen('8080');
