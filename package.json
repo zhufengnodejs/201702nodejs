@@ -1,0 +1,23 @@
+{
+  "name": "201702nodejs",
+  "version": "1.0.0",
+  "description": "201702nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhufengnodejs/201702nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhufengnodejs/201702nodejs/issues"
+  },
+  "homepage": "https://github.com/zhufengnodejs/201702nodejs#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
