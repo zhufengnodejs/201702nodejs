@@ -19,6 +19,9 @@ function createApplication(){
   app.get = function(pathname,listener){
      app.routes.push({method:'GET',pathname,listener});
   }
+  app.post = function(pathname,listener){
+        app.routes.push({method:'POST',pathname,listener});
+  }
   app.listen = function(port){
     //app其实是一个监听函数
     require('http').createServer(app).listen(port);
