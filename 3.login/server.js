@@ -1,5 +1,7 @@
 let express = require('express');
 //express只自带一个中间件叫 express.static 静态文件服务中文件。其它的都需要单独安装 npm install
+//bodyParser用来处理请求体，把请求体转成对象赋给req.body
+//username=admin&password=admin=>{username,password}
 let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 let app = express();
