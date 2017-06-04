@@ -56,9 +56,9 @@ let User = mongoose.model("User",UserSchema);
 // {name:/zfpx[12]/} {name:/zfpx(1|2)/}
 // {age:{$in:[1,2]}}
 
-User.find({name:'zfpx1',age:1},function(err,docs){
-    console.log(err);
-    console.log(docs);
+    User.find({name:'zfpx1',age:1},function(err,docs){
+        console.log(err);
+        console.log(docs);
 });
 
 
