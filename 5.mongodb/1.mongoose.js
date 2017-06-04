@@ -45,7 +45,18 @@ let User = mongoose.model("User",UserSchema);
 });*/
 // 数据操作 1分插入 9分查询
 //不管找到没有找到，不管找到多少条都会返回一个数组
-User.find({age:1},function(err,docs){
+/*User.find({age:1},function(err,docs){
+    console.log(err);
+    console.log(docs);
+});*/
+
+//age=1或者=2
+// {$or:[{age:1},{age:2}]} age=1或者age=2
+// {age:{$gt:0,$lt:3}}  大于0小于3
+// {name:/zfpx[12]/} {name:/zfpx(1|2)/}
+// {age:{$in:[1,2]}}
+
+User.find({name:'zfpx1',age:1},function(err,docs){
     console.log(err);
     console.log(docs);
 });
