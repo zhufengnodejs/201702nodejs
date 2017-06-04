@@ -5,7 +5,7 @@ http.createServer(function(req,res){
   let {pathname} = urlObj;
   if(pathname === '/write'){
       //通过响应头写入cookie
-      res.setHeader('Set-Cookie','age=9');
+      res.setHeader('Set-Cookie',['home=beijing','gender=boy']);
       res.end('write ok');
   //客户端再次访问服务器的时候要把cookie带回给服务器
   }else if(pathname === '/read'){
