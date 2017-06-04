@@ -19,12 +19,14 @@ let User = {
         return this;
     },
     exec(callback){
-        let result = this.data.sort(this._sort).slice(this._skip,this._skip+this._limit);
-        callback(null,result);
+       setTimeout(()=>{
+           let result = this.data.sort(this._sort).slice(this._skip,this._skip+this._limit);
+           callback(null,result);
+       },0);
         return this;
     }
 }
-User.limit(3).skip(3).sort({age:1}).exec(function(err,docs){
+User.exec(function(err,docs){
     console.log(err);
     console.log(docs);// 7 6 5
-});
+}).limit(3).skip(3).sort({age:1});
