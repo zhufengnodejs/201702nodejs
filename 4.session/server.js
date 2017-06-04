@@ -2,9 +2,9 @@ let express = require('express');
 let cookieParser = require('cookie-parser');
 let app = express();
 app.use(cookieParser());
-const SESSION_KEY = 'xxx';
 //这里放着所有的会话数据
 let sessions = {};
+const SESSION_KEY = 'connect.sid';
 /**
  * 1. 第一次访问的时候，咖啡厅会送给1000元的余额
  * 2. 以后每次访问的时候，都会扣掉100元.
