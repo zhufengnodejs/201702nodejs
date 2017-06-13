@@ -1,20 +1,18 @@
 let gulp = require('gulp');
-gulp.task('copy',function(){
-//可读流里有两个文件对象
-    gulp.src('./src/*.html')
-        .pipe(gulp.dest('./build'));
-    //dest 里参数是目录名
-});
-gulp.task('watch',function(){
-    //监控src目录下所有的html文件的变化，当它们变化之后执行对应的回调函数
-    /*gulp.watch('./src/!*.html',function(event){
-        console.log(event);
-        /!**
-         * type 变化类型 新增 修改 删除
-         * path 变化的文件路径
-         * { type: 'changed',
-  path: 'E:\\201702nodejs\\6.gulp\\src\\base.html' }
-         *!/
-    })*/
-    gulp.watch('./src/*.html',['copy'])
+//合并JS文件插件
+//gulp插件有个特点，导出的都是一个函数，需要调用一下,是为了传参数
+let concat = require('gulp-concat');
+let uglify = require('gulp-uglify');
+let rename = require('gulp-rename');
+// * 匹配任意字符，除了路径分隔符
+// ** 匹配任意字符，包括路径分隔符
+gulp.task('js',function(){
+    // [{filename:'a.js'},{filename:'b.js'}]
+    gulp.src('./src/**/*.js')
+    //[{filename:'all.js',content:''}]
+        .pipe(concat('all.js'))//参数指的的是合并后的文件名
+        .pipe(gulp.dest('./build/js'))
+        .pipe(uglify())//丑化 压缩
+        .pipe(rename('all.min.js'))
+        .pipe(gulp.dest('./build/js'))
 });
