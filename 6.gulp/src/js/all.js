@@ -1,0 +1,1 @@
+let hello =(v)=>{console.log(v);};hello('zfpx');
