@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="clock"></div>
+<script>
+    setInterval(function(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET','http://localhost:3000/clock',true)
+        //0-初始态 1-打开之后 2-发出请求 3 开始接收到响应之后  4 响应接收完毕之后
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){//响应接收完毕
+                if(/2\d{2}/.test(xhr.status)){
+                    document.querySelector('#clock').innerHTML = xhr.responseText;
+                }
+            }
+        }
+        xhr.send();
+    });
+</script>
+</body>
+</html>
