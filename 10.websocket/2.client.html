@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    //先创建一个socket连接
+    let socket = new WebSocket('ws://127.0.0.1:8080');
+    //监听连接成功事件
+    socket.onopen = function(){
+        console.log('连接成功');
+        //向服务器端发送消息
+        socket.send('服务器你好');
+    }
+    //监听到了服务器发过来的消息
+    socket.onmessage = function(event){
+        console.log(event.data);
+    }
+</script>
+</body>
+</html>

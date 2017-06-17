@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  //socket.io脚本会向 window上挂一个io的属性,调用此方法可以返回一个socket连接
+  let socket = io('/');
+  //当客户端连接服务器成功后会执行对应的回调函数
+  socket.on('connect',function(){
+      console.log('连接成功');
+      socket.send('服务器你好');
+  });
+  socket.on('message',function(msg){
+      console.log(msg);
+  });
+</script>
+</body>
+</html>
