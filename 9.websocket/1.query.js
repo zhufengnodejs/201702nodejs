@@ -8,7 +8,9 @@ let app = express();
 app.use(bodyParser.text());
 let messages = [];
 app.use(function(req,res,next){
-    res.setHeader('Access-Control-Allow-Origin','http://localhost:8080');
+    //允许哪个来源
+    res.setHeader('Access-Control-Allow-Origin','http://localhost:63342');
+    //允许客户端发送的请求头字段
     res.setHeader('Access-Control-Allow-Headers','Content-Type');
     if(req.method == 'OPTIONS'){
         res.end();
