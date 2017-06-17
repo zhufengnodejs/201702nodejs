@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>欢迎来到珠峰聊天室</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <form>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -15,6 +37,7 @@
       console.log('连接成功');
       socket.send('服务器你好');
   });
+  //监听到服务器发过来的消息后会执行对应的回调函数
   socket.on('message',function(msg){
       console.log(msg);
   });
