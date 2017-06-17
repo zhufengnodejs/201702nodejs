@@ -5,6 +5,12 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .user{
+            color:blue;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -15,7 +21,7 @@
                     <h3>欢迎来到珠峰聊天室</h3>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-group" id="messages">
+                    <ul onclick="handleClick(event)" class="list-group" id="messages">
 
                     </ul>
                 </div>
@@ -47,7 +53,7 @@
   //监听到服务器发过来的消息后会执行对应的回调函数
   socket.on('message',function(msgObj){
      let li = document.createElement('li');
-     li.innerHTML = `${msgObj.username}:${msgObj.content} <span class="pull-right">${msgObj.createAt}</span>`;
+     li.innerHTML = `<span class="user">${msgObj.username}</span>:${msgObj.content} <span class="pull-right">${msgObj.createAt}</span>`;
      li.className = 'list-group-item';
      messagesUl.appendChild(li);
   });
@@ -59,6 +65,10 @@
     //向后台socket.io服务器发送消息
     socket.send(content);//socket.emit('message',content);
     contentInput.value = '';
+  }
+
+  function handleClick(event){
+
   }
 </script>
 </body>

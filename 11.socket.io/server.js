@@ -15,7 +15,6 @@ let server = require('http').createServer(app);
 //socket.io是依赖HTTP服务器的
 let io  = require('socket.io')(server);
 //当客户端连接到服务器之后，执行对应的回调函数
-
 io.on('connection',function(socket){
     //连接成功之后服务器向客户端发送一条消息
     //用来存放此用户的用户名,必须 放在函数里面
@@ -27,14 +26,14 @@ io.on('connection',function(socket){
              io.emit('message',{
                  username,
                  content:msg,
-                 createAt:new Date()
+                 createAt:new Date().toLocaleString()
              });
          }else{//如果没有值，则意味着这是此客户端发送的第一条消息，那么会把这个消息的内容作为呢称
             username = msg;
             io.emit('message',{
                 username:'系统',
                 content:`欢迎${username}加入聊天室`,
-                createAt:new Date()
+                createAt:new Date().toLocaleString()
             });
          }
     });
@@ -54,6 +53,11 @@ Socket.prototype.send = function(){
  1. 实现匿名聊天
  2. 实现具名聊名
  3. 实现私聊
+     1. 让用户名可以点击
+     2. 当用户点击用户名的时候会在输入框里插入字符 @用户名 xxx
+     3. 然后你可以输入你想说的话
+     4. 然后点击发送，发送给服务器
+     5. 服务器会向对应的用户单个发送消息
  4. 数据持久化
  5. 在系统加载时自动加载最近的20条数据
  6. 分房间聊天
