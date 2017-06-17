@@ -19,6 +19,9 @@ io.on('connection',function(socket){
     //当服务器收到客户端发过来的消息之后回复给客户端一条消息
     socket.on('message',function(msg){
         console.log(msg);
+        //广播，向所有连接到此服务器的客户端发消息
+        io.emit('message',msg);
+        //这个是向单个的客户端发消息
         socket.send('服务器:'+msg);
     });
 });
