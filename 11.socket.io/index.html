@@ -68,7 +68,10 @@
   }
 
   function handleClick(event){
-
+    if(event.target.className.toLowerCase() == 'user'){
+        let username = event.target.innerText;
+        contentInput.value = `@${username} `;
+    }
   }
 </script>
 </body>

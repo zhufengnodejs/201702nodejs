@@ -14,6 +14,8 @@ app.get('/',function(req,res){
 let server = require('http').createServer(app);
 //socket.io是依赖HTTP服务器的
 let io  = require('socket.io')(server);
+//在全局下声明一个对象，key是用户名 值是对应的socket对象
+let sockets =  {};
 //当客户端连接到服务器之后，执行对应的回调函数
 io.on('connection',function(socket){
     //连接成功之后服务器向客户端发送一条消息
@@ -23,13 +25,28 @@ io.on('connection',function(socket){
     //当服务器收到客户端发过来的消息之后回复给客户端一条消息
     socket.on('message',function(msg){
          if(username){//如果username有值，则意味着设置过呢称
-             io.emit('message',{
-                 username,
-                 content:msg,
-                 createAt:new Date().toLocaleString()
-             });
+             //@a   @b我 xxx
+             let reg = /@([^ ]+) (.+)/;
+             let result = msg.match(reg);
+             if(result){
+                let toUser = result[1];
+                let content = result[2];
+                sockets[toUser].send({
+                    username,
+                    content,
+                    createAt:new Date().toLocaleString()
+                });
+             }else{
+                 io.emit('message',{
+                     username,
+                     content:msg,
+                     createAt:new Date().toLocaleString()
+                 });
+             }
          }else{//如果没有值，则意味着这是此客户端发送的第一条消息，那么会把这个消息的内容作为呢称
             username = msg;
+            //当第一次设置完呢称后可以把呢称和当前的socket对象的关联存放在全局变量中
+            sockets[username]= socket;
             io.emit('message',{
                 username:'系统',
                 content:`欢迎${username}加入聊天室`,
