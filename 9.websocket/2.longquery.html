@@ -30,7 +30,9 @@
             xhr.send(event.target.value);
         }
     }
-    setInterval(function(){
+
+    sendReqeust();
+    function sendReqeust(){
         let xhr = new XMLHttpRequest();
         let ul = document.querySelector('#messages');
         let offset = ul.childElementCount;
@@ -52,11 +54,12 @@
                             ul.appendChild(li);
                         });
                     }
+                    sendReqeust();
                 }
             }
         }
         xhr.send();
-    },50);
+    }
 </script>
 </body>
 </html>

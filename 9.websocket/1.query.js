@@ -31,6 +31,7 @@ app.get('/message',function(req,res){
      * Headers 允许的请求头
      * Methods 允许客户端发送的方法
      */
- res.send(messages);
+    let {offset} = req.query;
+ res.send(messages.slice(offset));
 });
 app.listen(3000);

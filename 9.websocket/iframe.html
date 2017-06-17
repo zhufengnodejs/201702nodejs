@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="clock">
+
+</div>
+<iframe id="myframe" frameborder="0" width="0" height="0"></iframe>
+
+<script>
+ function changeTime(time){
+     document.querySelector('#clock').innerHTML = time;
+ }
+setInterval(function(){
+  document.querySelector('#myframe').src = '/clock';
+},1000)
+</script>
+</body>
+</html>
