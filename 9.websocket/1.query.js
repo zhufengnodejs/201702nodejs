@@ -8,7 +8,7 @@ let app = express();
 app.use(bodyParser.text());
 let messages = [];
 app.use(function(req,res,next){
-    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Origin','http://localhost:8080');
     res.setHeader('Access-Control-Allow-Headers','Content-Type');
     if(req.method == 'OPTIONS'){
         res.end();
@@ -29,7 +29,6 @@ app.get('/message',function(req,res){
      * Headers 允许的请求头
      * Methods 允许客户端发送的方法
      */
-
  res.send(messages);
 });
 app.listen(3000);
