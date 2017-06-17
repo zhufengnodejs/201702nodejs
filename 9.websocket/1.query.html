@@ -5,21 +5,44 @@
     <title>长轮询</title>
 </head>
 <body>
-<div id="clock"></div>
+<input type="text" onkeydown="send(event)">
+<ul id="messages">
+    
+</ul>
 <script>
-    setInterval(function(){
+    //当浏览器向服务器发送POST请求之前，会向先向服务器发送一个OPTIONS 请求，判断得到的响应。看是否允许发POST请求，看允许发哪些请求头
+    function send(event){
+        let keyCode = event.keyCode;
+        if(keyCode == 13){//表示是回车键
+            let xhr = new XMLHttpRequest();
+
+            //获取是GET  添加是POST
+            xhr.open('POST','http://localhost:3000/message',true)
+            //0-初始态 1-打开之后 2-发出请求 3 开始接收到响应之后  4 响应接收完毕之后
+            //xhr.setRequestHeader('Content-Type','application/json')
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){//响应接收完毕
+                    if(/2\d{2}/.test(xhr.status)){
+
+                    }
+                }
+            }
+            xhr.send(event.target.value);
+        }
+    }
+    /*setInterval(function(){
         let xhr = new XMLHttpRequest();
-        xhr.open('GET','http://localhost:3000/clock',true)
+        xhr.open('GET','http://localhost:3000/message',true)
         //0-初始态 1-打开之后 2-发出请求 3 开始接收到响应之后  4 响应接收完毕之后
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4){//响应接收完毕
                 if(/2\d{2}/.test(xhr.status)){
-                    document.querySelector('#clock').innerHTML = xhr.responseText;
+                    document.querySelector('#messages').innerHTML = xhr.responseText;
                 }
             }
         }
         xhr.send();
-    });
+    },2000);*/
 </script>
 </body>
 </html>
