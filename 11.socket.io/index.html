@@ -22,6 +22,7 @@
                     <p>
                         <button class="btn btn-danger" onclick="join('red')">红房间</button>
                         <button class="btn btn-success" onclick="join('green')">绿房间</button>
+                        <span id="currentRoom"></span>
                     </p>
                 </div>
                 <div class="panel-body">
@@ -89,6 +90,7 @@
   //让此客户端在服务器对应的socket对应进入到某个房间内
   function join(roomName){
     socket.emit('join',roomName);
+    document.querySelector('#currentRoom').innerHTML = (roomName=='red'?'红房间':'绿房间')
   }
 </script>
 </body>

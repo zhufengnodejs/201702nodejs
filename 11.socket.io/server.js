@@ -42,6 +42,7 @@ io.on('connection',function(socket){
              }else{//公共聊天
                  Message.create({username, content:msg},function(err,doc){//doc是保存之后的文档对象
                      //如果此用户在某个房间内
+                     console.log('currentRoom',currentRoom);
                      if(currentRoom){
                          //那么要先进入此房间发言,只有此房间里的人才能听到
                          io.in(currentRoom).emit('message',doc);
