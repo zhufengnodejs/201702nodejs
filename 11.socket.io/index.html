@@ -23,7 +23,7 @@
                     <form onsubmit="handleSubmit(event)">
                         <div class="form-group">
                             <label for="content">内容</label>
-                            <input type="text" class="form-control" id="content">
+                            <input type="text" class="form-control" id="content" required>
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary">
@@ -42,13 +42,12 @@
   //当客户端连接服务器成功后会执行对应的回调函数
   socket.on('connect',function(){
       console.log('连接成功');
-      socket.send('服务器你好');
   });
   let messagesUl = document.querySelector('#messages');
   //监听到服务器发过来的消息后会执行对应的回调函数
-  socket.on('message',function(msg){
+  socket.on('message',function(msgObj){
      let li = document.createElement('li');
-     li.innerHTML = msg;
+     li.innerHTML = `${msgObj.username}:${msgObj.content} <span class="pull-right">${msgObj.createAt}</span>`;
      li.className = 'list-group-item';
      messagesUl.appendChild(li);
   });

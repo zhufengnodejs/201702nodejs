@@ -15,14 +15,28 @@ let server = require('http').createServer(app);
 //socket.io是依赖HTTP服务器的
 let io  = require('socket.io')(server);
 //当客户端连接到服务器之后，执行对应的回调函数
+
 io.on('connection',function(socket){
     //连接成功之后服务器向客户端发送一条消息
-    socket.send('欢迎光临聊天室');
+    //用来存放此用户的用户名,必须 放在函数里面
+    let username;
     /*socket.emit('message','欢迎光临聊天室');*/
     //当服务器收到客户端发过来的消息之后回复给客户端一条消息
     socket.on('message',function(msg){
-        //广播，向所有连接到此服务器的客户端发消息
-        io.emit('message',msg);
+         if(username){//如果username有值，则意味着设置过呢称
+             io.emit('message',{
+                 username,
+                 content:msg,
+                 createAt:new Date()
+             });
+         }else{//如果没有值，则意味着这是此客户端发送的第一条消息，那么会把这个消息的内容作为呢称
+            username = msg;
+            io.emit('message',{
+                username:'系统',
+                content:`欢迎${username}加入聊天室`,
+                createAt:new Date()
+            });
+         }
     });
 });
 server.listen(8080)
