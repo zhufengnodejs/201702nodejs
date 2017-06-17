@@ -19,6 +19,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>欢迎来到珠峰聊天室</h3>
+                    <p>
+                        <button class="btn btn-danger" onclick="join('red')">红房间</button>
+                        <button class="btn btn-success" onclick="join('green')">绿房间</button>
+                    </p>
                 </div>
                 <div class="panel-body">
                     <ul onclick="handleClick(event)" class="list-group" id="messages">
@@ -81,6 +85,10 @@
         let username = event.target.innerText;
         contentInput.value = `@${username} `;
     }
+  }
+  //让此客户端在服务器对应的socket对应进入到某个房间内
+  function join(roomName){
+    socket.emit('join',roomName);
   }
 </script>
 </body>

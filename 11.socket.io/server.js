@@ -22,6 +22,8 @@ io.on('connection',function(socket){
     //连接成功之后服务器向客户端发送一条消息
     //用来存放此用户的用户名,必须 放在函数里面
     let username;
+    let currentRoom;
+
     /*socket.emit('message','欢迎光临聊天室');*/
     //当服务器收到客户端发过来的消息之后回复给客户端一条消息
     socket.on('message',function(msg){
@@ -39,7 +41,13 @@ io.on('connection',function(socket){
                 });
              }else{//公共聊天
                  Message.create({username, content:msg},function(err,doc){//doc是保存之后的文档对象
-                     io.emit('message',doc);
+                     //如果此用户在某个房间内
+                     if(currentRoom){
+                         //那么要先进入此房间发言,只有此房间里的人才能听到
+                         io.in(currentRoom).emit('message',doc);
+                     }else{
+                         io.emit('message',doc);
+                     }
                  })
              }
          }else{//如果没有值，则意味着这是此客户端发送的第一条消息，那么会把这个消息的内容作为呢称
@@ -58,6 +66,14 @@ io.on('connection',function(socket){
             messages.reverse();
             socket.emit('allMessages',messages);
         });
+    });
+    socket.on('join',function(roomName){
+        //如果此用户已经在某个房间内了，那么需要先离开这个房间
+        if(currentRoom)
+            socket.leave(currentRoom);
+        //让此socket进入某个房间，进入之后，此用户的发言只能在房间内的其它用户听到，其它房间的人听不到
+        socket.join(roomName);
+        currentRoom = roomName;
     });
 });
 server.listen(8080)
@@ -81,7 +97,6 @@ Socket.prototype.send = function(){
      4. 然后点击发送，发送给服务器
      5. 服务器会向对应的用户单个发送消息
  4. 数据持久化
-
  5. 在系统加载时自动加载最近的20条数据
  6. 分房间聊天
  7. 消息的撤消和删除
