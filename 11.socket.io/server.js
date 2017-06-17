@@ -77,7 +77,7 @@ io.on('connection',function(socket){
     });
     socket.on('delete',function(_id){
         Message.remove({_id},function(err,result){
-            socket.emit('deleted',_id);
+            io.emit('deleted',_id);
         })
     });
 });

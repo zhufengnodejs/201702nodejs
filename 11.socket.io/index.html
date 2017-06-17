@@ -69,6 +69,7 @@
      let li = document.createElement('li');
      li.innerHTML = format(msgObj);
      li.className = 'list-group-item';
+     li.id = msgObj._id;
      messagesUl.appendChild(li);
   });
   let contentInput = document.querySelector('#content');
