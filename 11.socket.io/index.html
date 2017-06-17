@@ -14,13 +14,19 @@
                     <h3>欢迎来到珠峰聊天室</h3>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-group">
+                    <ul class="list-group" id="messages">
 
                     </ul>
                 </div>
                 <div class="panel-footer">
-                    <form>
-
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="content">内容</label>
+                            <input type="text" class="form-control" id="content">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -37,10 +43,23 @@
       console.log('连接成功');
       socket.send('服务器你好');
   });
+  let messagesUl = document.querySelector('#messages');
   //监听到服务器发过来的消息后会执行对应的回调函数
   socket.on('message',function(msg){
-      console.log(msg);
+     let li = document.createElement('li');
+     li.innerHTML = msg;
+     li.className = 'list-group-item';
+     messagesUl.appendChild(li);
   });
+  let contentInput = document.querySelector('#content');
+  function handleSubmit(event){
+    event.preventDefault();
+      //先获取输入框的内容
+    let content = contentInput.value;
+    //向后台socket.io服务器发送消息
+    socket.send(content);//socket.emit('message',content);
+    contentInput.value = '';
+  }
 </script>
 </body>
 </html>

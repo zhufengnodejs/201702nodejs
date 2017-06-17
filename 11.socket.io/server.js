@@ -16,16 +16,24 @@ let io  = require('socket.io')(server);
 io.on('connection',function(socket){
     //连接成功之后服务器向客户端发送一条消息
     socket.send('欢迎光临聊天室');
+    /*socket.emit('message','欢迎光临聊天室');*/
     //当服务器收到客户端发过来的消息之后回复给客户端一条消息
     socket.on('message',function(msg){
-        console.log(msg);
         //广播，向所有连接到此服务器的客户端发消息
         io.emit('message',msg);
-        //这个是向单个的客户端发消息
-        socket.send('服务器:'+msg);
     });
 });
-server.listen(8080);
+server.listen(8080)
+
+/*
+Socket.prototype.send = function(){
+    var args = Array.prototype.slice.call(arguments);// ['hello']
+    args.unshift('message');//['message','hello']
+    this.emit.apply(this, args);
+    this.emit('message','hello');
+    this.on('message',function(){});
+    return this;
+};*/
 /**
  1. 实现匿名聊天
  2. 实现具名聊名
