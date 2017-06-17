@@ -53,6 +53,12 @@ io.on('connection',function(socket){
             });
          }
     });
+    socket.on('getAllMessages',function(){
+        Message.find().sort({createAt:-1}).limit(20).exec(function(err,messages){
+            messages.reverse();
+            socket.emit('allMessages',messages);
+        });
+    });
 });
 server.listen(8080)
 

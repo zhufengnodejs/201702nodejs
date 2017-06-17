@@ -1,5 +1,6 @@
 //1.引入mongoose
 let mongoose = require('mongoose');
+mongoose.Promise = Promise;
 //2. 连接数据
 mongoose.connect('mongodb://127.0.0.1/201702crawl');
 // 3.定义Schema

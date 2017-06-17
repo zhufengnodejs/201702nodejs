@@ -48,12 +48,21 @@
   //当客户端连接服务器成功后会执行对应的回调函数
   socket.on('connect',function(){
       console.log('连接成功');
+      //当连接成功后向服务器发送一个getAllMessages事件
+      socket.emit('getAllMessages');
+  });
+  function format(msgObj){
+      return `<span class="user">${msgObj.username}</span>:${msgObj.content} <span class="pull-right">${msgObj.createAt}</span>`;
+  }
+  socket.on('allMessages',function(messages){
+      let html = messages.map(message=>`<li class="list-group-item">${format(message)}</li>`).join('');
+      messagesUl.innerHTML = html;
   });
   let messagesUl = document.querySelector('#messages');
   //监听到服务器发过来的消息后会执行对应的回调函数
   socket.on('message',function(msgObj){
      let li = document.createElement('li');
-     li.innerHTML = `<span class="user">${msgObj.username}</span>:${msgObj.content} <span class="pull-right">${msgObj.createAt}</span>`;
+     li.innerHTML = format(msgObj);
      li.className = 'list-group-item';
      messagesUl.appendChild(li);
   });
