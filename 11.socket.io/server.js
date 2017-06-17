@@ -42,7 +42,6 @@ io.on('connection',function(socket){
              }else{//公共聊天
                  Message.create({username, content:msg},function(err,doc){//doc是保存之后的文档对象
                      //如果此用户在某个房间内
-                     console.log('currentRoom',currentRoom);
                      if(currentRoom){
                          //那么要先进入此房间发言,只有此房间里的人才能听到
                          io.in(currentRoom).emit('message',doc);
@@ -75,6 +74,11 @@ io.on('connection',function(socket){
         //让此socket进入某个房间，进入之后，此用户的发言只能在房间内的其它用户听到，其它房间的人听不到
         socket.join(roomName);
         currentRoom = roomName;
+    });
+    socket.on('delete',function(_id){
+        Message.remove({_id},function(err,result){
+            socket.emit('deleted',_id);
+        })
     });
 });
 server.listen(8080)

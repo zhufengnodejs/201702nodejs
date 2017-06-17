@@ -57,10 +57,10 @@
       socket.emit('getAllMessages');
   });
   function format(msgObj){
-      return `<span class="user">${msgObj.username}</span>:${msgObj.content} <span class="pull-right">${msgObj.createAt}</span>`;
+      return `<span class="user">${msgObj.username}</span>:${msgObj.content} <button data-type="deleteBtn" data-id="${msgObj._id}" class="btn btn-danger btn-xs">X</button> <span class="pull-right">${msgObj.createAt}</span>`;
   }
   socket.on('allMessages',function(messages){
-      let html = messages.map(message=>`<li class="list-group-item">${format(message)}</li>`).join('');
+      let html = messages.map(message=>`<li class="list-group-item" id="${message._id}" >${format(message)}</li>`).join('');
       messagesUl.innerHTML = html;
   });
   let messagesUl = document.querySelector('#messages');
@@ -85,6 +85,9 @@
     if(event.target.className.toLowerCase() == 'user'){
         let username = event.target.innerText;
         contentInput.value = `@${username} `;
+    // data-type="1" data-id ="2"  => {type:1,id:2}
+    }else if(event.target.dataset.type == 'deleteBtn'){
+        socket.emit('delete',event.target.dataset.id);
     }
   }
   //让此客户端在服务器对应的socket对应进入到某个房间内
@@ -92,6 +95,11 @@
     socket.emit('join',roomName);
     document.querySelector('#currentRoom').innerHTML = (roomName=='red'?'红房间':'绿房间')
   }
+  socket.on('deleted',function(id){
+      //通过ID可以拿到对应的LI
+      let ele = document.getElementById(id);
+      ele.parentNode.removeChild(ele);
+  });
 </script>
 </body>
 </html>
