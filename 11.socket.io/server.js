@@ -4,6 +4,7 @@
  * socket.io用来发送和接收消息
  **/
 let express = require('express');
+let Message = require('./model').Message;
 let app = express();
 let path = require('path');
 app.use(express.static(path.resolve('../node_modules')));
@@ -36,12 +37,10 @@ io.on('connection',function(socket){
                     content,
                     createAt:new Date().toLocaleString()
                 });
-             }else{
-                 io.emit('message',{
-                     username,
-                     content:msg,
-                     createAt:new Date().toLocaleString()
-                 });
+             }else{//公共聊天
+                 Message.create({username, content:msg},function(err,doc){//doc是保存之后的文档对象
+                     io.emit('message',doc);
+                 })
              }
          }else{//如果没有值，则意味着这是此客户端发送的第一条消息，那么会把这个消息的内容作为呢称
             username = msg;
@@ -76,6 +75,7 @@ Socket.prototype.send = function(){
      4. 然后点击发送，发送给服务器
      5. 服务器会向对应的用户单个发送消息
  4. 数据持久化
+
  5. 在系统加载时自动加载最近的20条数据
  6. 分房间聊天
  7. 消息的撤消和删除
