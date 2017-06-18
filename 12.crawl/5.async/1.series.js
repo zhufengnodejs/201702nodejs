@@ -1,7 +1,22 @@
 let async = require('async');
 console.time('cost');
+function series(tasks,callback){
+   let index = 0;
+   let result = [];
+   let next = (err,data)=>{
+       if(index>0)
+        result.push(data);
+       if(index == tasks.length || err){
+           callback(err,result);
+       }else{
+           let task = tasks[index++];
+           task(next);
+       }
+   }
+   next();
+}
 // 串行的时候，任务执行总时间等于每个时间任务的总和
-async.series([
+series([
     function(cb){
        setTimeout(function(){
            console.log('1');
@@ -12,7 +27,7 @@ async.series([
         setTimeout(function(){
             console.log('2');
             //如果执行出错了，会跳过后续的所有任务
-            cb('出错了','2');
+            cb("出错了",'2');
         },2000);
     },
     function(cb){
